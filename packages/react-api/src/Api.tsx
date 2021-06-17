@@ -108,7 +108,20 @@ async function retrieve (api: ApiPromise, injectedPromise: Promise<InjectedExten
     api.rpc.system.version(),
     getInjectedAccounts(injectedPromise)
   ]);
-
+  console.log("injectedAccount", injectedAccounts)
+  console.log("chainProperties.ss58Format", chainProperties.ss58Format)
+  console.log("retrieve data", {
+    injectedAccounts,
+    properties: registry.createType('ChainProperties', {
+      ss58Format: api.consts.system?.ss58Prefix || chainProperties.ss58Format,
+      tokenDecimals: chainProperties.tokenDecimals,
+      tokenSymbol: chainProperties.tokenSymbol
+    }),
+    systemChain: (systemChain || '<unknown>').toString(),
+    systemChainType,
+    systemName: systemName.toString(),
+    systemVersion: systemVersion.toString()
+  })
   return {
     injectedAccounts,
     properties: registry.createType('ChainProperties', {
@@ -161,6 +174,17 @@ async function loadOnReady (api: ApiPromise, injectedPromise: Promise<InjectedEx
   const apiDefaultTxSudo = (api.tx.system && api.tx.system.setCode) || apiDefaultTx;
 
   setDeriveCache(api.genesisHash.toHex(), deriveMapCache);
+  console.log("loaded", {
+    apiDefaultTx,
+    apiDefaultTxSudo,
+    hasInjectedAccounts: injectedAccounts.length !== 0,
+    isApiReady: true,
+    isDevelopment: isEthereum ? false : isDevelopment,
+    isEthereum,
+    systemChain,
+    systemName,
+    systemVersion
+  })
 
   return {
     apiDefaultTx,
@@ -182,7 +206,7 @@ function Api ({ children, store, url }: Props): React.ReactElement<Props> | null
   const [isApiInitialized, setIsApiInitialized] = useState(false);
   const [apiError, setApiError] = useState<null | string>(null);
   const [extensions, setExtensions] = useState<InjectedExtension[] | undefined>();
-
+  console.log("State", state)
   const value = useMemo<ApiProps>(
     () => ({ ...state, api, apiError, extensions, isApiConnected, isApiInitialized, isWaitingInjected: !extensions }),
     [apiError, extensions, isApiConnected, isApiInitialized, state]

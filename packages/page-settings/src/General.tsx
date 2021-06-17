@@ -44,10 +44,13 @@ function General ({ className = '' }: Props): React.ReactElement<Props> {
   const prefixOptions = useMemo(
     (): (Option | React.ReactNode)[] => {
       let ss58Format = api.registry.chainSS58;
+      console.log("ss58Format", chainSS58)
 
       if (isUndefined(ss58Format)) {
         ss58Format = 42;
       }
+      console.log("ss58Format1", chainSS58)
+
 
       const network = allNetworks.find(({ prefix }) => prefix === ss58Format);
 

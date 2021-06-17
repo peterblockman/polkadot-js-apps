@@ -75,6 +75,10 @@ function rawValidate (seed: string): boolean {
 }
 
 function addressFromSeed (seed: string, derivePath: string, pairType: PairType): string {
+  console.log("seed", seed)
+  console.log("derivePath", derivePath)
+  console.log("keyring createFromUri", keyring
+    .createFromUri(getSuri(seed, derivePath, pairType), {}, pairType === 'ed25519-ledger' ? 'ed25519' : pairType))
   return keyring
     .createFromUri(getSuri(seed, derivePath, pairType), {}, pairType === 'ed25519-ledger' ? 'ed25519' : pairType)
     .address;

@@ -51,7 +51,12 @@ function IdentityIcon ({ className = '', prefix, size = 24, theme, value }: Prop
     }),
     [queueAction, t]
   );
-
+  console.log({
+    prefix,
+    isEthereum,
+    size,
+    value
+})
   return (
     <BaseIdentityIcon
       Custom={Custom}
